@@ -1,18 +1,18 @@
 //import express to setup express app.
-const express = require('express');
+import express, {Express, Request, Response} from 'express';
 
 //import dotenv to setup environment variables.
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 //use the environment variable during app setup.
 dotenv.config();
 
 //invoke express and assign it to app variable
-const app = express();
+const app: Express = express();
 //use the PORT from .env if not use 3000 as default port and assign it to port variable.
 const port = process.env.PORT || 3000;
 
 //using get method to send Hello World as response when '/',route is requested.'/' is also known as endpoint or root url.
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     res.send("Hello world");
 });
 
