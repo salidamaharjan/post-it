@@ -1,9 +1,8 @@
 export const typeDefs = `#graphql
-type Book {
-    title: String,
-    author: String
+type Post {
+    postName: String
 }
 type Query {
-    books: [Book]
+    posts: [Post]
 }
 `

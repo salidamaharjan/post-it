@@ -1,16 +1,14 @@
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-  },
-];
+import Post from "../model/posts";
 
 export const resolvers = {
   Query: {
-    books: () => books,
+    posts: async () => {
+      const posts = await Post.findAll();
+      const post = posts.map((post) => {
+        return post.toJSON();
+      });
+      console.log(post);
+      return post;
+    },
   },
 };
