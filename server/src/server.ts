@@ -12,6 +12,7 @@ import cors from "cors";
 import { typeDefs } from "./schema/typeDefs";
 import { resolvers } from "./schema/resolvers";
 import { sequelize } from "./config/sequelizeConnection";
+import Post from "./model/posts";
 
 //invoke express and assign it to app variable
 const app: Express = express();
@@ -39,6 +40,10 @@ app.get("/", (req: Request, res: Response) => {
   );
   await sequelize.sync({ force: true });
   console.log("All models were synchronized successfully.");
+  await Post.create({
+    postName: "This is post one",
+  });
+  console.log("Post seeded");
   //express app is awaiting request at http://localhost:3000 port
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
+    "seed": "node src/seed/post_seed.ts",
     "dev": "nodemon src/server.ts"
   },
   "keywords": [],
