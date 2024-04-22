@@ -43,6 +43,9 @@ app.get("/", (req: Request, res: Response) => {
   await Post.create({
     postName: "This is post one",
   });
+  await Post.create({
+    postName: "This is post two",
+  });
   console.log("Post seeded");
   //express app is awaiting request at http://localhost:3000 port
   app.listen(port, () => {
