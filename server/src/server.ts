@@ -8,21 +8,12 @@ dotenv.config();
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
+import { typeDefs } from "./schema/typeDefs";
 
 //invoke express and assign it to app variable
 const app: Express = express();
 //use the PORT from .env if not use 3000 as default port and assign it to port variable.
 const port = process.env.PORT || 3000;
-
-const typeDefs = `#graphql
- type Book {
-    title: String,
-    author: String
- }
- type Query {
-    books: [Book]
- }
-`;
 
 const books = [
   {
