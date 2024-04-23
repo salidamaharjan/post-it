@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Post from "../model/posts";
+import Post from "../model/post";
 import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
 import { MyContext } from "../auth";

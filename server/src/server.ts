@@ -12,7 +12,7 @@ import cors from "cors";
 import { typeDefs } from "./schema/typeDefs";
 import { resolvers } from "./schema/resolvers";
 import { sequelize } from "./config/sequelizeConnection";
-import Post from "./model/posts";
+import { Client, Post } from "./model/index";
 import { authMiddleware } from "./auth";
 
 //invoke express and assign it to app variable
@@ -44,8 +44,16 @@ app.get("/", (req: Request, res: Response) => {
   await Post.create({
     postName: "This is post one",
   });
+  await Client.create({
+    username: "adminu",
+    password: "adminp",
+  });
   await Post.create({
     postName: "This is post two",
+  });
+  await Client.create({
+    username: "user2",
+    password: "password",
   });
   console.log("Post seeded");
   //express app is awaiting request at http://localhost:3000 port
