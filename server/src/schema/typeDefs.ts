@@ -5,4 +5,12 @@ type Post {
 type Query {
     posts: [Post]
 }
+
+input NewPost {
+    postName: String
+}
+
+type Mutation {
+    newPost(post: NewPost): Post
+}
 `
