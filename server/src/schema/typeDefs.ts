@@ -12,5 +12,6 @@ input NewPost {
 
 type Mutation {
     newPost(post: NewPost): Post
+    login(username: String, password: String): String
 }
 `

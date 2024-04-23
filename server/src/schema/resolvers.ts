@@ -1,9 +1,9 @@
 import Post from "../model/posts";
+import jwt from "jsonwebtoken";
 
 type NewPost = {
   postName: String;
 };
-
 export const resolvers = {
   Query: {
     posts: async () => {
@@ -19,6 +19,13 @@ export const resolvers = {
     newPost: async (_: any, args: { post: NewPost }, __: any) => {
       const newPost = await Post.create(args.post);
       return newPost.toJSON();
+    },
+    login: async (
+      _: any,
+      args: { username: String; password: String },
+      __: any
+    ) => {
+      return args.username;
     },
   },
 };
