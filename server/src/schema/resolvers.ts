@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Post from "../model/post";
+import { Post, Client } from "../model/index";
 import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
 import { MyContext } from "../auth";
@@ -11,12 +11,17 @@ type NewPost = {
 export const resolvers = {
   Query: {
     posts: async () => {
-      const posts = await Post.findAll();
-      const post = posts.map((post) => {
-        return post.toJSON();
+      let posts = await Post.findAll({ include: Client });
+      posts = posts.map((post) => {
+        let json = post.toJSON();
+        console.log(json);
+        return {
+          ...json,
+          username: json.client.username,
+        };
       });
-      console.log(post);
-      return post;
+      console.log("post", posts);
+      return posts;
     },
   },
   Mutation: {

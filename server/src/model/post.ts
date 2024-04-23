@@ -16,6 +16,11 @@ Post.init(
       primaryKey: true,
       // allowNull defaults to true
     },
+    clientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "client", key: "id" },
+    },
   },
   {
     // Other model options go here

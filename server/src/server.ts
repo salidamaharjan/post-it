@@ -41,20 +41,23 @@ app.get("/", (req: Request, res: Response) => {
   );
   await sequelize.sync({ force: true });
   console.log("All models were synchronized successfully.");
-  await Post.create({
-    postName: "This is post one",
-  });
   await Client.create({
     username: "adminu",
     password: "adminp",
   });
   await Post.create({
-    postName: "This is post two",
+    postName: "This is post one",
+    clientId: 1,
   });
   await Client.create({
     username: "user2",
     password: "password",
   });
+  await Post.create({
+    postName: "This is post two",
+    clientId: 2,
+  });
+  
   console.log("Post seeded");
   //express app is awaiting request at http://localhost:3000 port
   app.listen(port, () => {
