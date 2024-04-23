@@ -4,9 +4,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import jwt from "jsonwebtoken";
 
+export type MyContext = {
+  username?: string;
+};
 export const authMiddleware: ContextFunction<
   [ExpressContextFunctionArgument],
-  BaseContext
+  MyContext
 > = async ({ req }) => {
   const token = req.headers.authorization?.split(" ");
   try {

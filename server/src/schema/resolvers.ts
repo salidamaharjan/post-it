@@ -3,6 +3,7 @@ dotenv.config();
 import Post from "../model/posts";
 import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
+import { MyContext } from "../auth";
 
 type NewPost = {
   postName: String;
@@ -19,7 +20,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    newPost: async (_: any, args: { post: NewPost }, __: any) => {
+    newPost: async (_: any, args: { post: NewPost }, context: MyContext) => {
       const newPost = await Post.create(args.post);
       return newPost.toJSON();
     },
