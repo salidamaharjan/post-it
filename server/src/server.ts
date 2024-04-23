@@ -13,6 +13,7 @@ import { typeDefs } from "./schema/typeDefs";
 import { resolvers } from "./schema/resolvers";
 import { sequelize } from "./config/sequelizeConnection";
 import Post from "./model/posts";
+import { authMiddleware } from "./auth";
 
 //invoke express and assign it to app variable
 const app: Express = express();
@@ -36,7 +37,7 @@ app.get("/", (req: Request, res: Response) => {
     "/graphql",
     cors<cors.CorsRequest>(),
     express.json(),
-    expressMiddleware(server)
+    expressMiddleware(server, { context: authMiddleware })
   );
   await sequelize.sync({ force: true });
   console.log("All models were synchronized successfully.");
