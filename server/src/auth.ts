@@ -5,6 +5,7 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 
 export type MyContext = {
+  clientId?: number;
   username?: string;
 };
 export const authMiddleware: ContextFunction<
@@ -14,7 +15,7 @@ export const authMiddleware: ContextFunction<
   const token = req.headers.authorization?.split(" ");
   try {
     const decode: any = jwt.verify(token![1], process.env.JWT_SECRET_KEY!);
-    return { username: decode.username };
+    return { clientId: decode.clientId, username: decode.username };
   } catch (error) {}
   return {};
 };

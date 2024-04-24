@@ -14,43 +14,74 @@ export const resolvers = {
       let posts = await Post.findAll({ include: Client });
       posts = posts.map((post) => {
         let json = post.toJSON();
-        console.log(json);
+        // console.log(json);
         return {
           ...json,
           username: json.client.username,
         };
       });
-      console.log("post", posts);
+      // console.log("post", posts);
       return posts;
     },
   },
   Mutation: {
     newPost: async (_: any, args: { post: NewPost }, context: MyContext) => {
-      const newPost = await Post.create(args.post);
-      return newPost.toJSON();
-    },
-    login: async (
-      _: any,
-      args: { username: String; password: String },
-      __: any
-    ) => {
-      if (args.username !== "adminu") {
+      if (!context.clientId) {
         throw new GraphQLError(
           "You are not authorized to perform this action.",
           {
             extensions: { code: "Forbidden" },
           }
         );
-      } else {
-        const token = jwt.sign(
-          {
-            username: "adminu",
-          },
-          process.env.JWT_SECRET_KEY!,
-          { expiresIn: "1h" }
-        );
-        return token;
       }
+      const newPost = await Post.create({
+        clientId: context.clientId,
+        ...args.post,
+      });
+      console.log("newPost", newPost.toJSON());
+      return { ...newPost.toJSON(), username: context.username };
+    },
+
+    login: async (
+      _: any,
+      args: { username: String; password: String },
+      __: any
+    ) => {
+      // find a user from the DB which matches the username from frontend
+      const client = await Client.findOne({
+        where: { username: args.username },
+      });
+      // convert sequelize model to JSON object
+      const clientToJson = client!.toJSON();
+
+      //if client not found in DB will throw an error
+      if (!client) {
+        throw new GraphQLError(
+          "You are not authorized to perform this action.",
+          {
+            extensions: { code: "Forbidden" },
+          }
+        );
+      }
+      // if user password did not match will throw an error
+      if (clientToJson.password !== args.password) {
+        throw new GraphQLError(
+          "You are not authorized to perform this action.",
+          {
+            extensions: { code: "Forbidden" },
+          }
+        );
+      }
+      // creates a token if the username and password found in DB.
+      const token = jwt.sign(
+        {
+          clientId: clientToJson.id,
+          username: clientToJson.username,
+        },
+        process.env.JWT_SECRET_KEY!,
+        { expiresIn: "1h" }
+      );
+      return token;
     },
   },
 };
