@@ -42,9 +42,19 @@ export const resolvers = {
       return { ...newPost.toJSON(), username: context.username };
     },
 
+    updatePost: async (
+      _: any,
+      args: { postName: string },
+      context: MyContext
+    ) => {
+      let paramValue = args.postName;
+      let myReturnValue: string = "";
+      return myReturnValue;
+    },
+
     login: async (
       _: any,
-      args: { username: String; password: String },
+      args: { username: string; password: string },
       __: any
     ) => {
       // find a user from the DB which matches the username from frontend

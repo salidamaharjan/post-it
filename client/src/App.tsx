@@ -1,10 +1,11 @@
 import "./App.css";
+import Login from "./component/Login";
 
 function App() {
   return (
-    <>
-      <div className="text-green-400">Post It</div>
-    </>
+    <div>
+      <Login />
+    </div>
   );
 }
 
